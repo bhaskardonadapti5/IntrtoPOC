@@ -4,10 +4,7 @@ import android.content.Intent
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
-import android.view.View
-import android.view.Window
-import android.view.WindowManager
-import android.widget.Button
+import android.view.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.google.android.material.button.MaterialButton
@@ -16,20 +13,32 @@ import com.google.android.material.tabs.TabLayout
 
 class IntroActivity : AppCompatActivity() {
 
-    lateinit var screenPager: ViewPager
+    private lateinit var screenPager: ViewPager
     var introViewPagerAdapter: IntroViewPagerAdapter? = null
-    lateinit var tabIndicator: TabLayout
-    lateinit var btnNext: MaterialButton
-    lateinit var btnSkip: MaterialButton
-    lateinit var btnGetStarted:MaterialButton
+    private lateinit var tabIndicator: TabLayout
+    private lateinit var btnNext: MaterialButton
+    private lateinit var btnSkip: MaterialButton
+    private lateinit var btnGetStarted:MaterialButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         requestWindowFeature(Window.FEATURE_NO_TITLE)
-        window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         setContentView(R.layout.activity_intro)
-        makeStatusbarTransparent()
 
+        //Set full screen after setting layout content
+        @Suppress("DEPRECATION")
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            val controller = window.insetsController
+
+            if(controller != null) {
+                controller.hide(WindowInsets.Type.statusBars() or WindowInsets.Type.navigationBars())
+                controller.systemBarsBehavior = WindowInsetsController.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
+            }
+        } else {
+            window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
+
+        makeStatusbarTransparent()
         btnNext = findViewById(R.id.btn_next)
         btnSkip = findViewById(R.id.btn_skip)
         btnGetStarted = findViewById(R.id.btn_get_started)
@@ -71,9 +80,8 @@ class IntroActivity : AppCompatActivity() {
     }
 
     private fun makeStatusbarTransparent() {
-        if (Build.VERSION.SDK_INT >= 21) {
-            window.decorView.systemUiVisibility =
-                View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            window.setDecorFitsSystemWindows(false)
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             val window = window
