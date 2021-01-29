@@ -47,10 +47,12 @@
         android:enabled="true"
         android:textAllCaps="false"
         android:text="NEXT"
+        android:drawableEnd="@drawable/ic_arrow"
         android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginRight="4dp" />
+        android:layout_marginRight="4dp"
+        android:drawableRight="@drawable/ic_arrow" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_get_started"
@@ -58,6 +60,8 @@
         android:enabled="true"
         android:textAllCaps="false"
         android:text="GET STARTED"
+        android:drawableEnd="@drawable/ic_arrow"
+        android:drawableRight="@drawable/ic_arrow"
         android:visibility="gone"
         android:layout_marginEnd="4dp"
         app:layout_constraintEnd_toEndOf="parent"
